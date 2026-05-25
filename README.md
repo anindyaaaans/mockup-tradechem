@@ -7,7 +7,7 @@ Designed with stunning modern aesthetics, seamless page-to-page navigation, and 
 ---
 
 ## 🎨 Figma Design Reference
-This project is built based on the high-fidelity designs from the **[Figma Design File](https://www.figma.com/design/EXGTjxZNrxcUxnmkiAcyig/Group-2-Mockup--Anindya-)**.
+This project is built based on the high-fidelity designs from the **[Figma Design File](https://www.figma.com/design/yYkpNpCukPfH0HYE6Ph3eA/Group-2-Mockup?node-id=7035-1563&p=f&t=f9Wt7roSsaFfKEOj-0)**.
 
 ---
 
