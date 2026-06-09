@@ -27,7 +27,7 @@ const ORDER = {
   destination: "Tanjung Priok, Jakarta, Indonesia",
   buyer: { name: "PT Indokimia Utama", country: "Indonesia", contact: "Rizky Firmansyah" },
   supplier: { name: "Nanjing Chemical Co., Ltd.", country: "China", contact: "Wang Lei" },
-  agent: { name: "Salsabila Freya", title: "TradeChem Trade Agent" },
+  agent: { name: "James Carter", title: "TradeChem Trade Agent" },
   logistics: { name: "Samudera Shipping Line", vessel: "MV Pacific Star", eta: "2026-06-28" },
 };
 
@@ -67,7 +67,7 @@ const DOCUMENTS: Doc[] = [
 
 const ACTIVITY = [
   { time: "01 Jun 08:12", actor: "Supplier", msg: "COA uploaded — Acetic Acid batch #AC-2026-0601 verified by QC team.", type: "doc" },
-  { time: "29 May 16:40", actor: "Agent (Salsabila)", msg: "Proforma Invoice reviewed and approved. Supplier notified to begin production.", type: "action" },
+  { time: "29 May 16:40", actor: "Agent (James)", msg: "Proforma Invoice reviewed and approved. Supplier notified to begin production.", type: "action" },
   { time: "29 May 10:02", actor: "System", msg: "Payment milestone 1 (30% advance) confirmed by Finance Module. Order unlocked for processing.", type: "system" },
   { time: "28 May 14:30", actor: "Buyer", msg: "Order terms confirmed. Purchase Order #PO-IKU-2026-0528 uploaded.", type: "doc" },
   { time: "28 May 09:14", actor: "System", msg: "Order TC-ORD-2026-04817 created from RFQ TC-RFQ-2026-03201. All parties notified.", type: "system" },
