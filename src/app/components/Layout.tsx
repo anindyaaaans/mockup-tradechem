@@ -1,8 +1,22 @@
 import { Outlet, Link } from "react-router";
-import { Search, Bell, User } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Search, Bell, User, ChevronDown } from "lucide-react";
 import logoImage from "../../imports/image.png";
 
 export function Layout() {
+  const [tradeOpen, setTradeOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setTradeOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -15,9 +29,41 @@ export function Layout() {
             <nav className="hidden md:flex items-center space-x-8">
               <Link to="/" className="text-[#303030] hover:text-[#2E5529]">Products</Link>
               <Link to="/search" className="text-[#303030] hover:text-[#2E5529]">Suppliers</Link>
-              <Link to="/market-intelligence" className="text-[#303030] hover:text-[#2E5529]">Market Intelligence</Link>
-              <Link to="/sourcing-hub" className="text-[#303030] hover:text-[#2E5529]">Sourcing Hub</Link>
-              <Link to="/procurement-infrastructure" className="text-[#303030] hover:text-[#2E5529]">Procurement Tools</Link>
+
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setTradeOpen(!tradeOpen)}
+                  className="flex items-center gap-1 text-[#303030] hover:text-[#2E5529]"
+                >
+                  Trade <ChevronDown className={`w-4 h-4 transition-transform ${tradeOpen ? "rotate-180" : ""}`} />
+                </button>
+                {tradeOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-52 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50">
+                    <Link
+                      to="/market-intelligence"
+                      onClick={() => setTradeOpen(false)}
+                      className="block px-4 py-2 text-sm text-[#303030] hover:bg-[#F5F7FA] hover:text-[#2E5529]"
+                    >
+                      Market Intelligence
+                    </Link>
+                    <Link
+                      to="/sourcing-hub"
+                      onClick={() => setTradeOpen(false)}
+                      className="block px-4 py-2 text-sm text-[#303030] hover:bg-[#F5F7FA] hover:text-[#2E5529]"
+                    >
+                      Sourcing Hub
+                    </Link>
+                    <Link
+                      to="/procurement-infrastructure"
+                      onClick={() => setTradeOpen(false)}
+                      className="block px-4 py-2 text-sm text-[#303030] hover:bg-[#F5F7FA] hover:text-[#2E5529]"
+                    >
+                      Procurement Tools
+                    </Link>
+                  </div>
+                )}
+              </div>
+
               <Link to="/logistics-dashboard" className="text-[#303030] hover:text-[#2E5529]">Logistics</Link>
               <Link to="/oms/monitoring" className="text-[#303030] hover:text-[#2E5529]">OMS</Link>
             </nav>

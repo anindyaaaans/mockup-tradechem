@@ -90,7 +90,7 @@ When a delay is active, an amber banner spanning the full width of the page appe
 
 8.2.3 KPI Cards
 
-Four summary cards appear in a row below the delay banner. The first card, with a blue background, shows "Current Position" with "Malacca Strait" as the main value and the exact GPS coordinates as a subtitle. The second card, with an amber background, shows "Revised ETA" with the revised arrival date as the main value and "+2d delay" as the subtitle, shown in amber text. The third card, with a green background, shows "Vessel Speed" displaying "12.4 knots" with the heading "SW 218 degrees" as the subtitle. The fourth card, with a purple background, shows "Carrier" displaying "Samudera Shipping" with "MV Pacific Star" as the subtitle. These data points are sourced from the Logistics Module integration in Chapter VI.
+Four summary cards appear in a row below the delay banner. The first card, with a blue background, shows "Current Position" with "Malacca Strait" as the main value and the exact GPS coordinates (2 degrees 48 minutes N, 103 degrees 52 minutes E) as a subtitle. The second card, with an amber background, shows "Revised ETA" with the revised arrival date as the main value and "+2d delay" as the subtitle, shown in amber text. The third card, with a green background, shows "Vessel Speed" displaying "12.4 knots" with the heading "SW 218 degrees" as the subtitle. The fourth card, with a purple background, shows "Carrier" displaying "Samudera Shipping" with "MV Pacific Star" as the subtitle. These data points are sourced from the Logistics Module integration in Chapter VI.
 
 8.2.4 Route Progress
 
@@ -137,7 +137,7 @@ The header is rendered in dark green and contains two areas. On the left: a smal
 
 8.3.3 KPI Cards
 
-Four cards are arranged in a row below the header. Each card has a colored left border to distinguish its category. The first card (blue left border) shows "Active Orders" with the count of orders not yet in Completed status (7 in the sample data) and the subtitle "currently in progress". The second card (amber left border) shows "Exception Flags" with the total exception count (5) and a breakdown subtitle showing the number of missing document cases and delay cases. The third card (red left border) shows "Overdue Actions" with the count of orders where an action has exceeded its SLA window (3) and the subtitle "require immediate attention". The fourth card (orange left border) shows "Escalation Queue" with the count of open escalation cases (3) and a subtitle showing how many are critical with SLA active.
+Four cards are arranged in a row below the header. Each card has a colored left border to distinguish its category. The first card (blue left border) shows "Active Orders" with the count of orders not yet in Completed status (8 in the sample data) and the subtitle "currently in progress". The second card (amber left border) shows "Exception Flags" with the total exception count (5) and a breakdown subtitle showing the number of missing document cases and delay cases. The third card (red left border) shows "Overdue Actions" with the count of orders where an action has exceeded its SLA window (3) and the subtitle "require immediate attention". The fourth card (orange left border) shows "Escalation Queue" with the count of open escalation cases (3) and a subtitle showing how many are critical with SLA active.
 
 8.3.4 Escalation Queue
 
@@ -161,7 +161,7 @@ The DOCS column shows either a red "X missing" label with the count for orders w
 
 The SLA column shows the hours remaining before the SLA expires. Values at or below 6 hours are shown in red. Values between 6 and 24 hours are shown in amber. Values above 24 hours are shown in grey.
 
-The action column contains three icon buttons per row: an eye icon (view the Order Detail Page), a flag icon (mark or update an exception), and a three-dot menu icon for additional actions.
+The action column contains three icon buttons per row: an eye icon (navigates to the Order Detail Page for that order), a flag icon (mark or update an exception), and a three-dot menu icon for additional actions.
 
 The eight orders in the sample data span statuses from Order Created through to Delivered and cover exception types including delay, missing documents, dispute, and escalated, as well as two orders with no exceptions.
 

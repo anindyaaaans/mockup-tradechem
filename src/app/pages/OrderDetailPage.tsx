@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import {
   FileText, CheckCircle, Clock, AlertTriangle, XCircle, Upload,
   Download, ChevronRight, User, Truck, Building2, Shield,
@@ -423,10 +424,10 @@ export function OrderDetailPage() {
                     <p className="font-medium text-gray-900">{ORDER.logistics.eta}</p>
                   </div>
                 </div>
-                <button className="w-full text-center text-xs text-[#2E5529] hover:underline font-medium flex items-center justify-center gap-1 mt-1">
+                <Link to="/oms/tracking" className="w-full text-center text-xs text-[#2E5529] hover:underline font-medium flex items-center justify-center gap-1 mt-1">
                   <Eye className="w-3.5 h-3.5" /> View Tracking Dashboard
                   <ExternalLink className="w-3 h-3" />
-                </button>
+                </Link>
               </div>
             </div>
 

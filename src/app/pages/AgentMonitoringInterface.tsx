@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import {
   AlertTriangle, CheckCircle, Clock, XCircle, Eye, ArrowRight,
   Package, Filter, Search, Bell, ChevronDown, User,
@@ -437,9 +438,9 @@ export function AgentMonitoringInterface() {
                       </td>
                       <td className="px-3 py-3">
                         <div className="flex items-center gap-1">
-                          <button className="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-[#2E5529]">
+                          <Link to="/oms/order" className="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-[#2E5529]">
                             <Eye className="w-4 h-4" />
-                          </button>
+                          </Link>
                           <button className="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-amber-600">
                             <Flag className="w-4 h-4" />
                           </button>
