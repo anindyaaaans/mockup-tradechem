@@ -1,182 +1,187 @@
-# CHAPTER VIII
-## Dashboard / Wireframe
+CHAPTER VIII
+Dashboard / Wireframe
 
-The dashboard is the operational surface of the TradeChem Order Management System. Every status transition defined in Chapter IV, every permission boundary established in Chapter V, and every notification event specified in Chapter VII must be made visible and actionable through the user interface. A well-structured dashboard does not merely display data; it presents the right information to the right role at the right moment, and surfaces the precise action that the system expects from that role. This chapter presents the UI design for three interfaces that together cover the full operational scope of the TradeChem OMS: the Order Detail Page, the Order Tracking Dashboard, and the Agent Monitoring Interface.
 
-Each screen is designed with role-awareness at its core. The TradeChem OMS serves five distinct roles as defined in Chapter V: Buyer, Supplier, Agent, Logistics Partner, and Platform Admin. The interface a user sees must reflect only the fields, documents, and actions that their role is permitted to access. A buyer should never see a supplier's internal readiness notes. A logistics partner should not be able to modify commercial terms. An agent must have visibility across all parties but must also carry clear accountability for escalation and coordination actions. The designs below enforce these boundaries visually and functionally.
+The dashboard is the operational surface of the TradeChem Order Management System. Every status transition defined in Chapter IV, every permission boundary established in Chapter V, and every notification event specified in Chapter VII must be made visible and actionable through the user interface. A well-structured dashboard does not merely display data; it presents the right information to the right role at the right moment and surfaces the precise action the system expects from that role. This chapter presents the UI design for three interfaces that together cover the full operational scope of the TradeChem OMS: the Order Detail Page, the Order Tracking Dashboard, and the Agent Monitoring Interface (labeled Order Monitoring Interface in the platform).
 
-The three interfaces are presented in sequence, from the most granular view (a single order) to the broadest view (all active orders under agent supervision). This mirrors the natural workflow of the OMS: a buyer opens an order to check status; a logistics coordinator checks tracking position and flags; an agent opens the monitoring interface to manage all active exceptions simultaneously.
+Each screen is designed with role-awareness at its core. The interface a user sees must reflect only the fields, documents, and actions that their role is permitted to access. A buyer should not have access to document upload controls that belong to the supplier. A logistics partner should not be able to modify commercial terms. An agent must have visibility across all parties while also carrying clear accountability for escalation and coordination actions. The designs enforce these boundaries visually and functionally, derived directly from the Role Permission Matrix in Chapter V.
 
----
+The three interfaces are presented in sequence, from the most granular view of a single order to the broadest portfolio-level view across all active orders. This mirrors the natural workflow of the OMS: a buyer opens a specific order to check status; a logistics coordinator checks shipment position and delay flags; an agent opens the monitoring interface to manage all active exceptions simultaneously.
 
-## 8.1 Order Detail Page
+
+8.1 Order Detail Page
 
 The Order Detail Page is the primary interface for any stakeholder who needs to understand or act on a specific order. It is accessed by navigating to a unique Order ID, which is generated at the moment of RFQ conversion as defined in Chapter III. Every field displayed on this page maps directly to a data element established in the order creation process or updated through a subsequent workflow event.
 
-### 8.1.1 Purpose and Design Rationale
+8.1.1 Purpose and Layout
 
-The Order Detail Page serves as the single source of truth for a given order. All parties — buyer, supplier, agent, and logistics partner — view the same underlying data, but each role sees a different set of available actions. This role-conditional action panel is the primary mechanism through which the permission matrix defined in Chapter V is enforced at the interface level.
+The Order Detail Page serves as the single source of truth for a given order. All parties, including buyer, supplier, agent, and logistics partner, view the same underlying data, but each role sees a different set of available actions. This role-conditional action panel is the primary mechanism through which the permission matrix from Chapter V is enforced at the interface level.
 
-The page is divided into six functional zones: the order header, the status timeline, the order summary panel, the parties panel, the document checklist, and the activity log. A persistent sidebar on the right displays the role-specific action panel, the logistics summary, the commercial terms, and the payment milestone tracker.
+The page is organized into a two-column layout. The main column on the left spans two-thirds of the width and contains the Order Timeline, Order Summary, Parties, Document Checklist, and Activity Log. The right sidebar contains the Actions panel (which changes based on the logged-in role), the Shipment summary, the Commercial Terms summary, and the Payment Status tracker. A page header at the top displays the Order ID, a breadcrumb trail, a document alert banner, and the current status badge.
 
-### 8.1.2 Role Indicator
+8.1.2 Role Switcher Banner
 
-Because the OMS is accessed by multiple roles, the page includes a visible role indicator at the top of the screen. In the live system, this indicator is populated automatically from the authenticated user's session. In the mockup, a role switcher allows demonstration of how the interface changes between Buyer, Supplier, and Agent views. This switcher does not appear in the production system; it exists only for review and presentation purposes.
+A dark green banner runs across the top of the page, above the header, labeled "OMS Mockup / Viewing as:" followed by three buttons: Buyer, Supplier, and Agent. Clicking a button switches the active role, which updates the Actions panel in the right sidebar and the document upload controls in the Document Checklist. The currently active role is indicated by a white filled button against the green background. This switcher is present only in the mockup for demonstration; in the production system, the role is determined by the authenticated user session.
 
-### 8.1.3 Order Header
+8.1.3 Order Header
 
-The order header displays the Order ID (e.g., TC-ORD-2026-04817), the linked RFQ reference (e.g., TC-RFQ-2026-03201), the order creation timestamp, and the current status badge. A document alert is displayed prominently in the header if any required documents are missing or pending, directly reflecting the document validation rules established in Chapter VI under the Document Management System integration. This alert banner is visible to all roles and is not dismissible until the outstanding documents are resolved.
+The page header displays the Order ID (for example, TC-ORD-2026-04817), the linked RFQ reference number (TC-RFQ-2026-03201), and the creation timestamp. On the right side of the header, two elements appear: a red document alert badge showing the count of documents that are missing or pending ("4 documents required" in the sample order), and a blue status badge showing the current order status ("Processing"). Both elements update as the order progresses.
 
-### 8.1.4 Status Timeline
+8.1.4 Order Timeline
 
-The status timeline renders all eight primary statuses defined in Chapter IV as a horizontal sequence of labeled nodes. Completed statuses are filled in green with a checkmark icon. The active status is highlighted in blue. Future statuses remain unfilled. Each completed node displays the timestamp at which that status was entered, providing a visual audit trail of the order's progression.
+The Order Timeline is a horizontal sequence of eight circular nodes connected by a line. Each node represents one of the eight statuses defined in the Status Definition Table in Chapter IV: Order Created, Confirmed, Processing, Shipping, In Transit, Customs / Clearance, Delivered, and Completed. Statuses that have been completed are filled in dark green with a white checkmark icon. The currently active status is filled in blue. Future statuses remain unfilled with a grey border. Completed nodes display the date and time at which that status was entered, for example "28 May 09:14" beneath the Order Created node. The connecting line between nodes turns green for the segment between two completed statuses and remains grey for segments that have not yet been reached. This timeline allows any stakeholder to determine the current position of the order in the lifecycle at a glance.
 
-The eight statuses displayed are: Order Created, Confirmed, Processing, Shipping, In Transit, Customs/Clearance, Delivered, and Completed. This sequence is derived directly from the Status Definition Table in Chapter IV. The timeline makes it immediately clear to any stakeholder where the order currently stands without requiring them to read a text field or submit a query.
+8.1.5 Order Summary
 
-### 8.1.5 Order Summary Panel
+The Order Summary panel displays the locked commercial terms in a two-column grid. The left column shows the product name, HS code, quantity and packaging type, and Incoterms. The right column shows the unit price, total order value (displayed in a larger bold green font to signal its importance), and payment terms. All fields in this panel are read-only for all roles except Platform Admin, reflecting the principle established in Chapter II that commercial terms must be locked once the order is confirmed. The HS code is displayed because it drives the document and compliance requirements sourced from the Compliance Module as described in the Integration Map in Chapter VI.
 
-The order summary panel displays all locked commercial terms as defined during RFQ conversion. These fields are read-only for all roles except Platform Admin, reflecting the principle established in Chapter II that commercial terms must be locked once the order is confirmed. The fields displayed are: product name, HS code, quantity, packaging type, unit price, total order value, Incoterms, and payment terms.
+8.1.6 Parties
 
-The inclusion of the HS code is significant. This field drives the compliance check in the Compliance Module integration defined in Chapter VI, which determines the required documentation list for the specific product and destination country. Displaying it on the Order Detail Page ensures that all parties can verify the classification that governs their documentation obligations.
+The Parties panel displays four cards arranged in a row: Buyer, Supplier, Trade Agent, and Logistics. Each card shows the organization name, the contact person name, and a small tag indicating country or affiliation. The card corresponding to the currently active role is highlighted with a green border and a light green background, giving the logged-in user immediate confirmation of which party they represent. The Logistics card displays the carrier name, vessel name, and the ETA as a tag.
 
-### 8.1.6 Parties Panel
+8.1.7 Document Checklist
 
-The parties panel displays all four assigned stakeholders: the Buyer, the Supplier, the assigned Trade Agent, and the Logistics Partner. Each party card shows the organization name, the contact person, and the country or role affiliation. The card corresponding to the currently logged-in role is highlighted with a green border, providing immediate orientation for the user.
+The Document Checklist is one of the most operationally critical sections of the Order Detail Page. It displays all nine required documents for the sample order, each row color-coded by status. Documents with "Uploaded" status have a green row background. Documents with "Pending" status have an amber row background. Documents with "Missing" status have a red row background. Each row shows the document name, a mandatory indicator (asterisk), the status badge, and when a document has been uploaded, the uploading party and upload date are shown in a smaller line below the document name. A download icon appears on uploaded documents.
 
-This panel reflects the stakeholder assignment function defined in Chapter V, where the Agent role is responsible for assigning logistics partners and coordinating among all parties. The logistics partner card, once assigned, displays the carrier name and vessel reference, which links directly to the Order Tracking Dashboard described in section 8.2.
+For documents that are Pending or Missing, an "Upload" button appears on the right side of the row when the active role is Supplier or Agent. For the Buyer role, no upload button is shown, reflecting the permission rules in Chapter V. The counter above the checklist summarizes how many documents have been uploaded and how many are still outstanding.
 
-### 8.1.7 Document Checklist
+The nine documents in the sample order are: Purchase Order (PO), Sales Contract / Proforma Invoice, Certificate of Analysis (COA), Packing List, Bill of Lading (BOL), Material Safety Data Sheet (MSDS), Export License, Customs Declaration Form, and Insurance Certificate. The Insurance Certificate is marked as optional (no asterisk); all others are mandatory. This list reflects the document requirements established in Chapter VI under the Document Management System integration.
 
-The document checklist is one of the most operationally critical elements of the Order Detail Page. It displays every required document for the specific order, along with the upload status of each: Uploaded, Pending, or Missing. The document list is populated based on the product category and destination country, sourced from the Compliance Module as defined in the Integration Map in Chapter VI.
+8.1.8 Activity Log
 
-Each document row displays the document name, whether it is mandatory or conditional, the upload status badge, the uploading party, and the upload date if applicable. For documents that are missing or pending, a visible Upload button appears for users with upload permission — specifically the Supplier and Agent roles as defined in Chapter V. Buyer users see the document list in read-only mode with no upload controls.
+The Activity Log records every event associated with the order as a reverse chronological feed. Each entry shows a circular icon on the left (blue for document events, purple for agent actions, grey for system events), the actor name in bold, the timestamp, and a plain language description of the event. The five entries in the sample order are: a supplier uploading the COA, an agent reviewing and approving the Proforma Invoice, a system entry confirming the 30% advance payment from the Finance Module, a buyer confirming terms and uploading the PO, and a system entry recording the original order creation from the RFQ. This log functions as the human-readable audit trail accessible to all roles.
 
-The standard document set for a chemical trade order includes: Purchase Order (PO), Sales Contract or Proforma Invoice, Certificate of Analysis (COA), Packing List, Bill of Lading (BOL), Material Safety Data Sheet (MSDS), Export License, Customs Declaration Form, and Insurance Certificate where applicable. This list corresponds directly to the document management requirements defined in Chapter VI under the Document Management System integration.
+8.1.9 Actions Panel (Role-Specific)
 
-### 8.1.8 Role-Specific Action Panel
+The Actions panel in the right sidebar is labeled "Actions" followed by the active role name in green. Its contents change entirely based on the selected role.
 
-The action panel changes entirely based on the logged-in role, enforcing the permission matrix from Chapter V. The following actions are available per role:
+For the Buyer role, the panel shows two buttons: "Raise Dispute" (with a red flag icon) and "Message Agent". A third button, "Confirm Delivery Receipt" (with a green checkmark icon), appears only when the order status is Delivered. This matches the buyer's permitted actions in Chapter V.
 
-**Buyer:** Confirm Delivery Receipt (active only when status is Delivered), Raise Dispute, Message Agent.
+For the Supplier role, the panel shows three buttons: "Upload Documents" (primary green button), "Confirm Dispatch", and "Flag Unable to Fulfill" (styled with a red border and red text to signal its severity). This matches the supplier's permitted actions in Chapter V.
 
-**Supplier:** Upload Documents, Confirm Dispatch (active when goods are ready for handover), Flag Unable to Fulfill (triggers escalation to Agent as defined in Chapter VII section 7.4).
+For the Agent role, the panel shows four buttons: "Validate Documents" (primary green button), "Assign Logistics Partner", "Escalate Exception" (styled with an amber border), and "Override Status". The presence of Override Status reflects the agent's authority to force status transitions with a full audit trail as specified in Chapter V.
 
-**Agent:** Validate Documents, Assign Logistics Partner, Escalate Exception, Override Status (with full audit trail as required by Chapter V).
+8.1.10 Shipment Sidebar
 
-This conditional rendering ensures that no role can access actions outside their permitted scope. The Override Status action for the Agent role generates an automatic audit log entry, consistent with the audit requirements specified in the Role Permission Matrix.
+Below the Actions panel, the Shipment section in the sidebar displays the origin and destination of the order, followed by the carrier name, vessel name, and ETA. A link at the bottom labeled "View Tracking Dashboard" with an external link icon navigates the user to the Order Tracking Dashboard for this order (described in section 8.2).
 
-### 8.1.9 Payment Milestone Tracker
+8.1.11 Commercial Terms Sidebar
 
-The payment tracker in the sidebar displays each payment milestone defined in the commercial terms, along with the current payment status sourced from the Finance Module integration specified in Chapter VI. For a typical CIF order with 30% advance and 70% at BL, the tracker shows two rows: the advance milestone marked as Paid once the Finance Module confirms escrow receipt, and the balance milestone marked as Pending until the BOL is uploaded and delivery is confirmed. This direct link between document status and payment release reflects the finance integration data flow defined in Chapter VI.
+The Commercial Terms section shows three fields with icons: Payment terms (with a credit card icon), Delivery Deadline (with a calendar icon), and Incoterms (with a package icon). These fields are the same values shown in the Order Summary and serve as a quick reference without requiring the user to scroll up.
 
-### 8.1.10 Activity Log
+8.1.12 Payment Status Sidebar
 
-The activity log at the bottom of the page records every event and action associated with the order in reverse chronological order. Each entry includes the acting party, the timestamp, and a plain language description of the event. Log entries are generated automatically by the system for status transitions, document uploads, and notification events, and may also be generated manually by agents recording coordination actions. The activity log functions as the human-readable audit trail that complements the system-level audit log maintained by the Platform Admin.
+The Payment Status section shows two rows corresponding to the two payment milestones defined in the commercial terms. For the sample order with 30% advance and 70% at Bill of Lading, the first row shows "Advance (30%)" for USD 34,920 with a green "Paid" badge. The second row shows "Balance (70%) at BL" for USD 81,480 with an amber "Pending" badge. These statuses are sourced from the Finance Module integration described in Chapter VI.
 
----
 
-## 8.2 Order Tracking Dashboard
+8.2 Order Tracking Dashboard
 
-The Order Tracking Dashboard provides real-time visibility into the physical movement of a shipment from its origin port to the destination. It is accessible to all stakeholders but is most actively used by the Buyer, Agent, and Logistics Partner. This dashboard corresponds directly to the In Transit and Customs/Clearance stages of the status lifecycle defined in Chapter IV, and to the Logistics Module integration defined in Chapter VI, which provides real-time tracking data, estimated delivery dates, and last-mile delivery confirmation.
+The Order Tracking Dashboard provides real-time visibility into the physical movement of a shipment from its origin port to the destination. It is accessible to all stakeholders. This dashboard corresponds to the In Transit and Customs/Clearance stages of the status lifecycle in Chapter IV and to the Logistics Module integration in Chapter VI, which provides real-time tracking updates, estimated delivery dates, and last-mile delivery confirmation.
 
-### 8.2.1 Purpose and Design Rationale
+8.2.1 Purpose and Layout
 
-Once goods are dispatched and a Bill of Lading is issued, the primary concern of all stakeholders shifts from document compliance to physical delivery. The Order Tracking Dashboard gives every party a single view of where the shipment is, when it is expected to arrive, and whether any exceptions have been raised during transit. The dashboard makes passive monitoring automatic, so that agents and buyers do not need to contact the carrier directly to obtain status updates.
+Once goods are dispatched and a Bill of Lading is issued, the primary concern of all stakeholders shifts from document compliance to physical delivery. The tracking dashboard gives every party a single view of where the shipment is, when it is expected to arrive, and whether any exceptions have been raised. The breadcrumb at the top reads "Orders > TC-ORD-2026-04817 > Shipment Tracking". The page title is "Shipment Tracking". The header also shows a "Last updated" timestamp with a refresh icon, and an "In Transit" status badge in blue.
 
-### 8.2.2 Delay Alert Banner
+The page is divided into two main areas. The upper area contains the Delay Alert Banner (when active) and the four KPI cards. Below that, the layout splits into a main column (two-thirds width) containing the Route Progress panel and the Tracking History panel, and a right sidebar containing the Carrier Details, Cargo Details, Ports, and Alerts panels.
 
-The delay alert banner is the highest-priority element on the tracking dashboard. It appears at the top of the page whenever the logistics system detects a deviation from the scheduled route or ETA. The banner displays the reason for the delay, the original ETA, and the revised ETA, and is colour-coded in amber to indicate an active exception that requires stakeholder awareness.
+8.2.2 Delay Alert Banner
 
-This banner corresponds to the Delay Detected communication event defined in Chapter VII section 7.1.6. When the banner is active, the system has already sent a high-priority notification to the Buyer, Agent, and Logistics Partner via dashboard, email, and WhatsApp Business. The banner serves as the persistent in-platform reference for that notification, ensuring that users who access the dashboard after the initial alert can still see the full context of the delay.
+When a delay is active, an amber banner spanning the full width of the page appears directly below the page header. It contains an alert triangle icon, a bold title stating "Active Delay Flag: ETA Revised by 2 Days", and the reason for the delay in smaller text about port congestion at Port Klang, Malaysia causing the vessel to be diverted from its scheduled route. Below the reason, two fields side by side show the Original ETA and the Revised ETA with their respective dates. This banner corresponds to the Delay Detected communication event in Chapter VII section 7.1.6. It remains visible for the duration of the delay so that users who access the dashboard after the initial notification can still see the full context.
 
-### 8.2.3 Key Performance Indicators
+8.2.3 KPI Cards
 
-Four KPI cards appear below the delay banner, summarising the most critical real-time data points for a shipment in transit. The cards display: Current Position (last reported coordinates and location name), Revised ETA (with a delta indicator showing the number of days ahead or behind original schedule), Vessel Speed and Heading, and Carrier Name and Vessel.
+Four summary cards appear in a row below the delay banner. The first card, with a blue background, shows "Current Position" with "Malacca Strait" as the main value and the exact GPS coordinates as a subtitle. The second card, with an amber background, shows "Revised ETA" with the revised arrival date as the main value and "+2d delay" as the subtitle, shown in amber text. The third card, with a green background, shows "Vessel Speed" displaying "12.4 knots" with the heading "SW 218 degrees" as the subtitle. The fourth card, with a purple background, shows "Carrier" displaying "Samudera Shipping" with "MV Pacific Star" as the subtitle. These data points are sourced from the Logistics Module integration in Chapter VI.
 
-These data points are sourced from the Logistics Module as defined in the Integration Map in Chapter VI. The Logistics Module provides real-time tracking updates at each checkpoint, which the OMS displays without transformation. The delta indicator on the ETA card is calculated by the OMS by comparing the revised ETA provided by the Logistics Module against the original delivery date locked at order confirmation.
+8.2.4 Route Progress
 
-### 8.2.4 Route Progress Visualiser
+The Route Progress panel shows the shipment journey as five nodes connected by a horizontal line. The five nodes from left to right are: Nanjing, CN (departed 3 Jun); South China Sea (5-6 Jun); Malacca Strait (Now, 9 Jun); Singapore Waters (Est. 11-12 Jun); and Tanjung Priok, ID (ETA 30 Jun). Completed nodes (the first two) are filled in dark green with white icons. The active node (Malacca Strait) is filled in blue and pulses to indicate the live position. The remaining nodes are unfilled with grey borders. The horizontal connecting line is split into a green section covering the completed portion (approximately 46 percent of the total length) and a grey section for the remainder. A blue circular icon with a truck symbol and a "NOW" label floats below the connecting line at the current position.
 
-The route progress visualiser displays the shipment's journey as a sequence of five geographic nodes: origin port, intermediate waypoints, current position, and destination port. Each node is represented by a labelled icon. Completed segments of the route are rendered in green. The current position is represented by a pulsing blue indicator. Remaining segments are rendered in grey.
+Below the route nodes, a three-column summary shows: "Departed" (6 days ago, 3 Jun 2026), "Est. Remaining" (approximately 21 days, approximately 4,400 nautical miles left), and "ETA" (the revised date, shown in amber with a "+2d revised" note).
 
-Below the route visualiser, three summary fields display the number of days since departure, the estimated remaining distance and transit time, and the revised ETA. These fields provide at-a-glance context for stakeholders assessing whether the shipment is on track without needing to read the detailed checkpoint history.
+8.2.5 Tracking History
 
-### 8.2.5 Tracking Checkpoint History
+The Tracking History panel shows a vertical timeline of eight checkpoint entries. Each entry has a status indicator dot on the left connected by a vertical line to the next entry. Completed entries use a solid green dot with a white checkmark. The active entry uses a solid blue pulsing dot. Exception entries (flagged events) use a solid amber dot. Pending future entries use an unfilled grey circle. A vertical connector line between two completed entries is rendered in a faded green; connectors leading to pending entries are grey.
 
-The checkpoint history panel displays every recorded event in the shipment's journey as a vertical timeline. Each entry includes the event description, the location, and the timestamp. Completed checkpoints are marked with green filled circles. The active checkpoint is marked with a blue pulsing indicator. Exception events — such as route deviations or customs holds — are marked with amber warning icons and include an explanatory note.
+The eight entries for the sample order are: Order Dispatched (goods loaded at Nanjing Port), Departed Origin Port, Passed Taiwan Strait, Route Deviation Detected (flagged entry with amber background and amber text noting that the vessel was rerouted due to Port Klang congestion and the ETA was revised), Current Position in the Strait of Malacca (active entry), Expected Arrival at Tanjung Priok, Customs Clearance, and Last-mile Delivery to Buyer. Exception entries receive an amber background highlight and display the explanatory note in amber text.
 
-This timeline corresponds to the status update data provided by the Logistics Partner role as defined in Chapter V, which requires logistics partners to update shipment status at each checkpoint and upload tracking proof. The audit value of this timeline is significant: in the event of a dispute over delivery timing or cargo condition, the checkpoint history provides a timestamped record of where the goods were at every stage of their journey.
+8.2.6 Carrier Details
 
-### 8.2.6 Carrier Details Panel
+The Carrier Details sidebar panel shows six rows in a label-value format: Carrier (Samudera Shipping Line), Vessel (MV Pacific Star), IMO Number (IMO 9812345), Voyage (SSQ-026W), Tracking No. (SSLA2026040817), and Bill of Lading (SSLA20260601PK). Below these rows is a text link labeled "Track on Samudera Portal" with an external link icon.
 
-The carrier details panel in the right sidebar displays all logistical identifiers associated with the shipment: carrier name, vessel name, IMO number, voyage number, tracking number, and Bill of Lading number. These fields are populated from the Logistics Module integration and are read-only for all roles. A direct link to the carrier's external tracking portal is provided for users who require additional detail beyond what the TradeChem OMS displays.
+8.2.7 Cargo Details
 
-### 8.2.7 Cargo Details Panel
+The Cargo Details sidebar panel shows four rows, each with a colored icon: Container No. (SSLA4408172, green package icon), Temperature (Ambient, blue thermometer icon), Hazard Class (Class 8, Corrosive, red alert triangle icon), and Seal Status (Intact, green checkmark icon). An info icon button in the top-right corner of this panel provides access to additional technical detail.
 
-The cargo details panel displays the container number, temperature requirements, hazard classification, and seal status of the cargo. The hazard classification field is sourced from the Compliance Module integration defined in Chapter VI and reflects the Dangerous Goods classification assigned to the product during order creation. For chemical products classified under any of the nine IMDG hazard classes, this field is mandatory and visible to all roles to ensure that all parties handling the cargo are aware of the relevant safety requirements.
+8.2.8 Ports
 
-### 8.2.8 Active Alerts
+The Ports sidebar panel shows two entries. The origin entry (grey circular icon with an anchor) displays "Origin Port", the port name Nanjing China, the port code CNNKG, and a green confirmation line "Departed 2026-06-03 06:40 CST". The destination entry (dark green circular icon with a map pin) displays "Destination Port", Tanjung Priok Jakarta, the port code IDJKT, the original ETA shown in grey with a strikethrough line, and the revised ETA shown in amber.
 
-A dedicated alerts section in the sidebar aggregates all active system notifications relevant to the current shipment. These include delay flags, pending document alerts sourced from the Document Management System integration, and compliance confirmations. This section ensures that stakeholders using the tracking dashboard have full situational awareness without needing to navigate to a separate notification panel.
+8.2.9 Alerts
 
----
+The Alerts sidebar panel shows three alert entries, each with a colored background and icon. The first, in amber, warns that the ETA has been revised and the customs clearance timeline may shift. The second, in blue, notes that the packing list and BOL upload are still pending from the supplier. The third, in green, confirms that the COA has been validated by the agent and cargo integrity is confirmed. These alerts are drawn from the same notification events defined in Chapter VII and provide in-page situational awareness without requiring the user to navigate elsewhere.
 
-## 8.3 Agent Monitoring Interface
 
-The Agent Monitoring Interface is the operational command centre for Trade Agents responsible for coordinating active orders within the TradeChem platform. Unlike the Order Detail Page and Order Tracking Dashboard, which are focused on a single order, the monitoring interface provides a portfolio-level view across all active orders simultaneously. This interface is designed specifically for the Agent role as defined in Chapter V, which requires agents to view all orders, manage exceptions, trigger escalations, and coordinate among all parties.
+8.3 Agent Monitoring Interface
 
-### 8.3.1 Purpose and Design Rationale
+The Agent Monitoring Interface, titled "Order Monitoring Interface" in the platform, is the operational command centre for Trade Agents coordinating active orders. Unlike the Order Detail Page and Order Tracking Dashboard, which focus on a single order, the monitoring interface provides a portfolio-level view across all active orders simultaneously. It is designed for the Agent role as defined in Chapter V, which requires agents to view all orders, manage exceptions, trigger escalations, and coordinate among all parties.
 
-At any given time, a Trade Agent may be coordinating between five and twenty active orders simultaneously, each at a different stage of the lifecycle and each with its own exception state. Without a consolidated view, agents must navigate individually to each order to assess status, causing delays in exception detection and response. The monitoring interface solves this by surfacing all orders, exception flags, overdue actions, and escalation items in a single screen.
+8.3.1 Purpose and Layout
 
-The design of this interface is directly motivated by the operational requirements of the Agent role: they must see all orders, identify exceptions faster than any individual order view would allow, and take coordinated action across multiple orders from a single screen. Every element of this interface corresponds to a data point, permission rule, or workflow event already defined in Chapters III through VII.
+At any given time, a Trade Agent may be coordinating between five and twenty active orders, each at a different lifecycle stage and each with its own exception state. Without a consolidated view, agents must navigate individually to each order to assess status, which delays exception detection and response. The monitoring interface surfaces all orders, exception flags, overdue actions, and escalation items in a single screen.
 
-### 8.3.2 Agent Identity Panel and Critical Alert Indicator
+The page uses a dark green header section for the agent control area, followed by a light grey content area containing the four KPI cards, the Escalation Queue panel, the Active Orders section with its tab bar and table, and the three portfolio summary metric cards at the bottom.
 
-The interface header displays the authenticated agent's name and role, confirming their identity and the scope of their permissions. If any orders in their portfolio carry a Critical priority flag — defined as orders with an escalation SLA of six hours or less remaining — a red pulsing alert badge appears in the header with the count of critical items. This ensures that the most time-sensitive exceptions are never hidden below the fold or obscured by routine updates.
+8.3.2 Header
 
-### 8.3.3 KPI Summary Cards
+The header is rendered in dark green and contains two areas. On the left: a small "Agent Control Center" label with a shield icon in light green, the page title "Order Monitoring Interface" in bold white, and a subtitle "Real-time visibility across all active TradeChem orders" in lighter green. On the right: a red pulsing badge showing the count of critical orders (labeled "2 Critical" for the sample data), a white pill showing the agent identity "Marcus Tan, Agent" with a user icon, and a refresh button.
 
-Four KPI cards at the top of the monitoring interface provide an immediate portfolio overview. The cards display: Active Orders (total count of orders not in Completed status), Exception Flags (count of orders carrying any exception type, broken down by missing documents and delays), Overdue Actions (count of orders where an action has not been completed within the designated SLA window), and Escalation Queue (count of open escalation cases, with a sub-indicator for critical priority items).
+8.3.3 KPI Cards
 
-These KPIs are derived directly from the order status data, document checklist data, and SLA timer data maintained by the OMS. They update in real time as the underlying data changes, ensuring that the agent's view of their portfolio is always current.
+Four cards are arranged in a row below the header. Each card has a colored left border to distinguish its category. The first card (blue left border) shows "Active Orders" with the count of orders not yet in Completed status (7 in the sample data) and the subtitle "currently in progress". The second card (amber left border) shows "Exception Flags" with the total exception count (5) and a breakdown subtitle showing the number of missing document cases and delay cases. The third card (red left border) shows "Overdue Actions" with the count of orders where an action has exceeded its SLA window (3) and the subtitle "require immediate attention". The fourth card (orange left border) shows "Escalation Queue" with the count of open escalation cases (3) and a subtitle showing how many are critical with SLA active.
 
-### 8.3.4 Escalation Queue
+8.3.4 Escalation Queue
 
-The escalation queue is presented as a permanently visible panel below the KPI cards. It displays all open escalation cases in the agent's portfolio, sorted by priority and SLA remaining time. Each escalation entry displays the escalation case ID, the linked Order ID, the issue description, the party who raised the escalation, the current handler, the timestamp of escalation, and a countdown showing the SLA time remaining.
+The Escalation Queue is a permanently visible panel below the KPI cards, above the orders table. It always shows all open escalation cases regardless of which tab is selected in the orders table. The panel header shows "Escalation Queue" with a count badge and a "View all" link on the right.
 
-For critical escalations — those with fewer than six hours of SLA remaining — the entry is highlighted in red. For high-priority escalations, the highlight is amber. Each entry includes a Take Action button that navigates directly to the relevant order or opens the escalation resolution workflow, and a Contact button that initiates a message thread with the relevant party.
+Each escalation entry is separated by a divider line. Critical escalations have a faint red background. Each entry shows: a priority badge (CRITICAL in red or HIGH in amber), the escalation case ID in monospaced font, the linked Order ID in green, the issue title in bold, and below that the raising party, the current handler, and the timestamp in smaller grey text. Below those details, the progress steps are shown as small chip tags in grey. On the right side of each entry, a SLA countdown badge (for example "SLA: 2h 14m") and a "Take Action" button in dark green are displayed.
 
-The escalation queue reflects the escalation protocol defined in Chapter VII section 7.4, which specifies SLA windows ranging from 24 to 72 hours depending on event type, and which designates the Agent as the first escalation recipient for supplier confirmation failures, document upload failures, and delivery confirmation failures.
+The three escalation cases in the sample data are: ESC-2026-0031 (Critical, customs declaration rejected due to incorrect HS code, current handler Platform Admin, SLA 2h 14m remaining); ESC-2026-0028 (High, quantity dispute with buyer claiming 2 MT short, handler Agent David, SLA 11h 52m remaining); ESC-2026-0024 (Critical, supplier non-responsive on missing documents, handler Agent Rachel, SLA 5h 38m remaining). These correspond to the escalation protocol defined in Chapter VII section 7.4.
 
-### 8.3.5 Active Orders Table
+8.3.5 Active Orders Table
 
-The active orders table displays all orders in the agent's portfolio that have not yet reached Completed status. Each row in the table contains: a priority indicator dot (colour-coded by priority level), the Order ID, the product name and supplier, the buyer name, the total order value, the current status badge, the exception flag badge, the document completeness indicator, and the SLA hours remaining.
+The orders table is headed "Active Orders" with a live search bar on the right (placeholder "Search orders...") and a Filter button with a dropdown icon. Directly below the heading is a tab bar with four tabs: All Orders, Exceptions, Overdue, and Escalations, each showing a count badge.
 
-The priority indicator is derived from the combination of exception type and SLA proximity. Orders with an escalated exception and fewer than six hours of SLA remaining are marked Critical and rendered with a red row background. Orders with overdue actions but no escalation are marked High and rendered with an amber background. All other active orders use standard white background rendering.
+The table has ten columns: P (priority dot), ORDER ID, PRODUCT (with supplier name in smaller grey text below), BUYER, VALUE, STATUS, EXCEPTION, DOCS, SLA, and a column of action icons. Priority dots are color-coded: red for Critical, amber for High, yellow for Medium, and green for Normal. Critical rows have a faint red background. Overdue non-critical rows have a faint amber background.
 
-Four quick action icons appear at the right of each row: View (navigates to the Order Detail Page), Flag (adds or updates an exception flag for the order), and a context menu providing additional actions including escalation, status override with audit log, and direct messaging to any party.
+The STATUS column displays color-coded badge pills: grey for Order Created, blue for Confirmed, indigo for Processing, sky blue for Shipping, cyan for In Transit, purple for Customs/Clearance, teal for Delivered, and green for Completed.
 
-### 8.3.6 Tab Navigation
+The EXCEPTION column shows badge pills with icons: amber "Delay" with a clock icon, red "Missing Docs" with a document icon, pink "Dispute" with a flag icon, and orange "Escalated" with an arrow icon. For overdue orders, a red "OVERDUE" label with a clock icon appears below the exception badge.
 
-The active orders table is filterable through four tabs: All Orders, Exceptions, Overdue, and Escalations. The All Orders tab displays the full active portfolio. The Exceptions tab filters to orders carrying any exception flag. The Overdue tab filters to orders where an action has exceeded its SLA window. The Escalations tab replaces the table with a full-width escalation management view, showing expanded detail for each escalation case including the sequential steps taken and pending, the handler at each step, and resolution controls.
+The DOCS column shows either a red "X missing" label with the count for orders with outstanding documents, or a green "Complete" label with a checkmark for orders where all documents are uploaded.
 
-The exception types displayed in the table correspond directly to the four exception scenarios defined in Chapter IX: Delivery Delay, Missing Documents, Dispute, and Escalated. Each exception type is rendered with a distinct colour badge to allow rapid visual differentiation.
+The SLA column shows the hours remaining before the SLA expires. Values at or below 6 hours are shown in red. Values between 6 and 24 hours are shown in amber. Values above 24 hours are shown in grey.
 
-### 8.3.7 Overdue Action Detail Panel
+The action column contains three icon buttons per row: an eye icon (view the Order Detail Page), a flag icon (mark or update an exception), and a three-dot menu icon for additional actions.
 
-When the Overdue tab is active, an additional detail panel appears below the filtered table, listing the specific overdue action for each flagged order in plain language. This narrative description is generated by the system from the combination of the current order status, the pending required action, and the elapsed SLA time. For example, an order in Processing status where the supplier has not uploaded the COA within 48 hours would generate the entry: *Supplier COA and MSDS upload pending since confirmation.* This plain language description reduces cognitive load for the agent by eliminating the need to cross-reference the status definition table during exception handling.
+The eight orders in the sample data span statuses from Order Created through to Delivered and cover exception types including delay, missing documents, dispute, and escalated, as well as two orders with no exceptions.
 
-### 8.3.8 Portfolio Summary Metrics
+8.3.6 Tab Behavior
 
-At the bottom of the monitoring interface, three summary metric cards display portfolio-level performance indicators: Total Order Value across all active orders, Average Days to Resolution based on the trailing 30 days, and SLA Compliance Rate for the current month. These metrics are not operational action items but serve as a continuous feedback mechanism for agent performance and platform health. They correspond to the performance data that the Platform Admin role, as defined in Chapter V, is responsible for monitoring and reporting.
+The All Orders tab shows all active orders. The Exceptions tab filters to orders with any exception flag. The Overdue tab filters to orders where an action has exceeded its SLA window and additionally shows an "Overdue Action Details" panel below the filtered table, listing each overdue action in plain language (for example, "Packing list overdue by 2 days. Supplier has not responded.") with a red background and alert triangle icon. The Escalations tab replaces the table with an expanded card view of each escalation case, showing the priority badge, escalation ID, Order ID, issue title, raising party, current handler, timestamp, numbered progress steps, a "Resolve" button in dark green, and a "Contact" button with a border style.
 
----
+8.3.7 Table Footer
 
-## 8.4 Design Consistency and System Integration
+The bottom of the orders table shows a grey footer bar with two pieces of information: the count of displayed rows out of the total active orders on the left, and the last refreshed timestamp on the right ("Last refreshed: 2026-06-09 11:22 SGT").
 
-All three interfaces share a consistent design language and are built on the same component library used throughout the TradeChem platform. Visual hierarchy, colour semantics, and interaction patterns are uniform across all screens: green is used for confirmed or completed states, amber for warnings and pending exceptions, red for critical flags and missing items, and blue for active or in-progress states. This consistency reduces the learning curve for users who access multiple interfaces within the same session and ensures that stakeholders who collaborate across roles — such as an agent and a buyer reviewing the same order — are working from the same visual vocabulary.
+8.3.8 Portfolio Summary Metrics
 
-Each interface communicates in real time with the OMS backend through the data flows defined in the Integration Map in Chapter VI. The Order Detail Page queries the Document Management System, Finance Module, and Logistics Module. The Order Tracking Dashboard queries the Logistics Module exclusively. The Agent Monitoring Interface aggregates data from all integrated systems simultaneously. No interface displays cached or static data; all fields reflect the current state of the order as stored in the OMS database.
+Three cards at the bottom of the page display aggregate metrics for the agent's active portfolio. The first shows "Total Order Value (Active)" with USD 1,058,950 using a bar chart icon in dark green. The second shows "Avg. Days to Resolution (Last 30d)" with 6.4 days using a clock icon in blue. The third shows "SLA Compliance Rate (Jun 2026)" with 87.2 percent using a checkmark icon in green. These metrics serve as a continuous performance indicator visible at the bottom of every session on the monitoring interface.
 
-The dashboard designs presented in this chapter operationalise the entire preceding body of work in this report. The status timeline on the Order Detail Page makes Chapter IV visible. The role-specific action panel enforces Chapter V. The document checklist links to Chapter VI. The delay banner surfaces Chapter VII. The escalation queue in the monitoring interface anticipates Chapter IX. Every element has a source, and every interaction has a rule. The interface is not decorative. It is the point at which the system becomes usable.
+
+8.4 Design Consistency and System Integration
+
+All three interfaces share a consistent visual language across color, typography, spacing, and interaction patterns. Green indicates confirmed or completed states. Amber indicates warnings, pending items, or delays. Red indicates critical flags, missing items, or overdue actions. Blue indicates active or in-progress states. This color system is applied consistently across status badges, KPI card borders, checkpoint dots, document row backgrounds, priority dots, and escalation highlights, so that any stakeholder moving between screens does not need to relearn the visual grammar.
+
+Each interface is directly connected to the backend data flows defined in the Integration Map in Chapter VI. The Order Detail Page draws from the Document Management System, Finance Module, and Logistics Module. The Order Tracking Dashboard draws exclusively from the Logistics Module. The Agent Monitoring Interface aggregates data from all connected systems simultaneously. No interface relies on static or cached data; all fields reflect the current state of the order.
+
+The three designs together operationalize the full body of work in this report. The Order Timeline on the Order Detail Page makes the Status Definition Table from Chapter IV visible to every stakeholder. The role-specific action panel enforces the Role Permission Matrix from Chapter V. The Document Checklist connects to the Document Management System integration in Chapter VI. The Delay Alert Banner surfaces the communication event defined in Chapter VII. The Escalation Queue on the monitoring interface anticipates the exception scenarios to be defined in Chapter IX. Every visible element has a defined source in a preceding chapter, and every interactive control corresponds to a permission rule already established in this guideline.
