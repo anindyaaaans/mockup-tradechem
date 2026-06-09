@@ -6,6 +6,7 @@ import { SearchResultsPage } from "./pages/SearchResultsPage";
 import { MarketIntelligencePage } from "./pages/MarketIntelligencePage";
 import { SmartSourcingHub } from "./pages/SmartSourcingHub";
 import { AdvancedMarketplacePage } from "./pages/AdvancedMarketplacePage";
+import { LogisticsDashboardPage } from "./pages/LogisticsDashboardPage";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
       { path: "market-intelligence", Component: MarketIntelligencePage },
       { path: "sourcing-hub", Component: SmartSourcingHub },
       { path: "procurement-infrastructure", Component: AdvancedMarketplacePage },
+      { path: "logistics-dashboard", Component: LogisticsDashboardPage },
     ],
   },
 ]);
