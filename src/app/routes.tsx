@@ -7,6 +7,9 @@ import { MarketIntelligencePage } from "./pages/MarketIntelligencePage";
 import { SmartSourcingHub } from "./pages/SmartSourcingHub";
 import { AdvancedMarketplacePage } from "./pages/AdvancedMarketplacePage";
 import { LogisticsDashboardPage } from "./pages/LogisticsDashboardPage";
+import { OrderDetailPage } from "./pages/OrderDetailPage";
+import { OrderTrackingDashboard } from "./pages/OrderTrackingDashboard";
+import { AgentMonitoringInterface } from "./pages/AgentMonitoringInterface";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +23,10 @@ export const router = createBrowserRouter([
       { path: "sourcing-hub", Component: SmartSourcingHub },
       { path: "procurement-infrastructure", Component: AdvancedMarketplacePage },
       { path: "logistics-dashboard", Component: LogisticsDashboardPage },
+      { path: "oms/order/:orderId", Component: OrderDetailPage },
+      { path: "oms/order", Component: OrderDetailPage },
+      { path: "oms/tracking", Component: OrderTrackingDashboard },
+      { path: "oms/monitoring", Component: AgentMonitoringInterface },
     ],
   },
 ]);

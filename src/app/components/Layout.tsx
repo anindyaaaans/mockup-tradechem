@@ -19,6 +19,7 @@ export function Layout() {
               <Link to="/sourcing-hub" className="text-[#303030] hover:text-[#2E5529]">Sourcing Hub</Link>
               <Link to="/procurement-infrastructure" className="text-[#303030] hover:text-[#2E5529]">Procurement Tools</Link>
               <Link to="/logistics-dashboard" className="text-[#303030] hover:text-[#2E5529]">Logistics</Link>
+              <Link to="/oms/monitoring" className="text-[#303030] hover:text-[#2E5529]">OMS</Link>
             </nav>
 
             <div className="flex items-center space-x-4">
@@ -73,6 +74,9 @@ export function Layout() {
                 <li><a href="#" className="hover:text-white">Price Trends</a></li>
                 <li><a href="#" className="hover:text-white">Industry Reports</a></li>
                 <li><Link to="/logistics-dashboard" className="hover:text-white">Logistics Dashboard</Link></li>
+                <li><Link to="/oms/order" className="hover:text-white">Order Detail</Link></li>
+                <li><Link to="/oms/tracking" className="hover:text-white">Shipment Tracking</Link></li>
+                <li><Link to="/oms/monitoring" className="hover:text-white">Agent Monitor</Link></li>
               </ul>
             </div>
             <div>
