@@ -123,6 +123,7 @@ export function Layout() {
                 <li><Link to="/oms/order" className="hover:text-white">Order Detail</Link></li>
                 <li><Link to="/oms/tracking" className="hover:text-white">Shipment Tracking</Link></li>
                 <li><Link to="/oms/monitoring" className="hover:text-white">Agent Monitor</Link></li>
+                <li><Link to="/oms/agent-dashboard" className="hover:text-white">Agent Portfolio</Link></li>
               </ul>
             </div>
             <div>

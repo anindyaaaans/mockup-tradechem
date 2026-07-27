@@ -10,6 +10,7 @@ import { LogisticsDashboardPage } from "./pages/LogisticsDashboardPage";
 import { OrderDetailPage } from "./pages/OrderDetailPage";
 import { OrderTrackingDashboard } from "./pages/OrderTrackingDashboard";
 import { AgentMonitoringInterface } from "./pages/AgentMonitoringInterface";
+import { AgentDashboardPage } from "./pages/AgentDashboardPage";
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
       { path: "oms/order", Component: OrderDetailPage },
       { path: "oms/tracking", Component: OrderTrackingDashboard },
       { path: "oms/monitoring", Component: AgentMonitoringInterface },
+      { path: "oms/agent-dashboard", Component: AgentDashboardPage },
     ],
   },
 ]);
